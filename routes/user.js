@@ -1,4 +1,4 @@
-const {User, validateUser} = require('../models/user');
+const {User, validateUser, Status} = require('../models/user');
 const {Friend, validateFriend} = require('../models/user')
 const {Comment, validateComment} = require('../models/user')
 const {Picture, validatePicture} = require('../models/user')
@@ -314,5 +314,72 @@ router.delete('/:userId/Pictures',auth, async (req, res) => {
   }
 });
 
+
+//get all Status
+router.get('/:userId/Status', async(req,res)=>{
+  try{
+    const status = await Status.findAllPicture();
+
+    return res
+    .send(status);
+  } catch(ex){
+    return res.status(500).send(`Internal Server Error:${ex}`);
+  }
+});
+
+
+//get single status
+router.get('/:userId/Status/:StatusId', async(req,res)=>{
+  try{
+      const status = await Status.findById(req.params.StatusId);
+      if (!status) return res.status(400).send(`The user with id "${req.params.statusId}" does not exist.`);
+  
+      return res
+      .send(user.Status);
+  } catch(ex){
+      return res.status(500).send(`Internal Server Error:${ex}`);
+  }
+})
+
+
+//add new status
+router.post("/:userId/Status", async (req, res) => {
+  try {
+      // const {error} = validateFriend (req.body);
+      // if (error) return res.status(400).send(error.details[0].message);
+      const user = await User.findById(req.params.userId);
+      if (!user) return res.status(400).send(`The user with id "${req.params.userId}" does not exist.`);
+      
+      let status; 
+
+      
+      status = new Status({
+        userId: req.body.userId,
+        status: req.body.status,
+      })
+      
+      
+      user.status.push(status);
+      
+      await user.save()
+
+      return res.send(user.status)
+  } catch (ex) {
+      return res.status(500).send(`Internal Server Error: ${ex}`);
+  }
+});
+
+
+// delete status
+router.delete('/:userId/Status',auth, async (req, res) => {
+  try {
+    const status = await Status.findByIdAndRemove(req.params.StatusId);
+    if (!status)
+      return res.status(400).send(`The user with id "${req.params.StatusId}" does not exist.`);
+    return res.send(Status);
+  } catch (ex) {
+    return res.status(500).send(`Internal Server Error: ${ex}`);
+  }
+});
 
 module.exports = router;

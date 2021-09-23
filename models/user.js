@@ -52,6 +52,23 @@ function validatePicture(picture) {
     return schema.validate(picture);
 }
 
+//status
+const statusSchema = new mongoose.Schema({
+    userId: { type: String, required: true, minlength: 2, maxlength: 50 },
+    status:  { type: String, required: true}
+    
+});
+
+const Status = mongoose.model('Status', statusSchema);
+
+function validateStatus(status) {
+    const schema = Joi.object({
+        userId: Joi.string().min(2).max(50).required(),
+        status:  Joi.string().required()
+    });
+    return schema.validate(status);
+}
+
 
 const userSchema = new mongoose.Schema({
     name:  { type: String, required: true, minlength: 2, maxlength: 50 },
@@ -60,7 +77,8 @@ const userSchema = new mongoose.Schema({
     isAdmin:{type:Boolean, default:false},
     friends:{ type:[friendSchema], default:[]},
     comment: {type: [commentSchema], default:[]},
-    picture: {typr: [pictureSchema], default:[]}
+    status: {type: [statusSchema], default:[]},
+    picture: {type: [pictureSchema], default:[]}
 });
 
 userSchema.methods.generateAuthToken = function () {
@@ -90,3 +108,7 @@ exports.commentSchema = commentSchema
 exports.Picture = Picture
 exports.validatePicture = validatePicture
 exports.pictureSchema = pictureSchema
+exports.Status = Status
+exports.validateStatus = validateStatus
+exports.statusSchema = statusSchema
+
