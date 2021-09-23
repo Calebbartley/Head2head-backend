@@ -19,6 +19,38 @@ function validateFriend(friend) {
     return schema.validate(friend);
 }
 
+//comment
+const commentSchema = new mongoose.Schema({
+    userId: { type: String, required: true, minlength: 2, maxlength: 50 },
+    comment:  { type: String, required: true}
+    
+});
+
+const Comment = mongoose.model('Comment', commentSchema);
+
+function validateComment(comment) {
+    const schema = Joi.object({
+        userId: Joi.string().min(2).max(50).required(),
+        comment:  Joi.Text().required()
+    });
+    return schema.validate(comment);
+}
+//picture
+const pictureSchema = new mongoose.Schema({
+    userId: { type: String, required: true, minlength: 2, maxlength: 50 },
+    picture:  { data: Buffer, type: String ,required: true}
+    
+});
+
+const Picture= mongoose.model('Picture', pictureSchema);
+
+function validatePicture(picture) {
+    const schema = Joi.object({
+        userId: Joi.string().min(2).max(50).required(),
+        picture:  Joi.Picture().required()
+    });
+    return schema.validate(picture);
+}
 
 
 const userSchema = new mongoose.Schema({
@@ -26,7 +58,9 @@ const userSchema = new mongoose.Schema({
     email: { type: String, unique: true, required: true, minlength: 5, maxlength: 255 },
     password: { type: String, required: true, minlength: 5, maxlength: 1024 },
     isAdmin:{type:Boolean, default:false},
-    friends:{ type:[friendSchema], default:[]}
+    friends:{ type:[friendSchema], default:[]},
+    comment: {type: [commentSchema], default:[]},
+    picture: {typr: [pictureSchema], default:[]}
 });
 
 userSchema.methods.generateAuthToken = function () {
@@ -50,3 +84,9 @@ exports.userSchema = userSchema
 exports.Friend = Friend
 exports.validateFriend = validateFriend
 exports.friendSchema = friendSchema
+exports.Comment = Comment
+exports.validateComment = validateComment
+exports.commentSchema = commentSchema
+exports.Picture = Picture
+exports.validatePicture = validatePicture
+exports.pictureSchema = pictureSchema

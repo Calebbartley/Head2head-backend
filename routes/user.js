@@ -1,5 +1,7 @@
 const {User, validateUser} = require('../models/user');
 const {Friend, validateFriend} = require('../models/user')
+const {Comment, validateComment} = require('../models/user')
+const {Picture, validatePicture} = require('../models/user')
 
 const bcrypt = require('bcrypt');
 const auth = require('../middleware/auth');
@@ -176,6 +178,141 @@ router.delete('/:userId/Friends',auth, async (req, res) => {
   }
 });
 
+
+//get all Comments
+router.get('/:userId/Comments', async(req,res)=>{
+  try{
+    const comment = await Comment.findAllComments();
+
+    return res
+    .send(comment);
+  } catch(ex){
+    return res.status(500).send(`Internal Server Error:${ex}`);
+  }
+});
+
+
+//get single comment
+router.get('/:userId/Comments/:CommentId', async(req,res)=>{
+  try{
+      const comment = await Comment.findById(req.params.CommentId);
+      if (!comment) return res.status(400).send(`The user with id "${req.params.CommentId}" does not exist.`);
+  
+      return res
+      .send(user.Comment);
+  } catch(ex){
+      return res.status(500).send(`Internal Server Error:${ex}`);
+  }
+})
+
+
+//add new Comment
+router.post("/:userId/Comments", async (req, res) => {
+  try {
+      // const {error} = validateFriend (req.body);
+      // if (error) return res.status(400).send(error.details[0].message);
+      const user = await User.findById(req.params.userId);
+      if (!user) return res.status(400).send(`The user with id "${req.params.userId}" does not exist.`);
+      
+      let comment; 
+
+      
+      comment = new Comment({
+        userId: req.body.userId,
+        comment: req.body.comment,
+      })
+      
+      
+      user.comment.push(comment);
+      
+      await user.save()
+
+      return res.send(user.comments)
+  } catch (ex) {
+      return res.status(500).send(`Internal Server Error: ${ex}`);
+  }
+});
+
+
+// delete comment
+router.delete('/:userId/Comments',auth, async (req, res) => {
+  try {
+    const comment = await Comment.findByIdAndRemove(req.params.CommentId);
+    if (!comment)
+      return res.status(400).send(`The user with id "${req.params.CommentId}" does not exist.`);
+    return res.send(Comment);
+  } catch (ex) {
+    return res.status(500).send(`Internal Server Error: ${ex}`);
+  }
+});
+
+
+//get all Pictures
+router.get('/:userId/Pictures', async(req,res)=>{
+  try{
+    const picture = await Picture.findAllPicture();
+
+    return res
+    .send(picture);
+  } catch(ex){
+    return res.status(500).send(`Internal Server Error:${ex}`);
+  }
+});
+
+
+//get single comment
+router.get('/:userId/Pictures/:PictureId', async(req,res)=>{
+  try{
+      const picture = await Picture.findById(req.params.PictureId);
+      if (!picture) return res.status(400).send(`The user with id "${req.params.PicturesId}" does not exist.`);
+  
+      return res
+      .send(user.Picture);
+  } catch(ex){
+      return res.status(500).send(`Internal Server Error:${ex}`);
+  }
+})
+
+
+//add new Comment
+router.post("/:userId/Pictures", async (req, res) => {
+  try {
+      // const {error} = validateFriend (req.body);
+      // if (error) return res.status(400).send(error.details[0].message);
+      const user = await User.findById(req.params.userId);
+      if (!user) return res.status(400).send(`The user with id "${req.params.userId}" does not exist.`);
+      
+      let picture; 
+
+      
+      picture = new Picture({
+        userId: req.body.userId,
+        picture: req.body.picture,
+      })
+      
+      
+      user.picture.push(picture);
+      
+      await user.save()
+
+      return res.send(user.picture)
+  } catch (ex) {
+      return res.status(500).send(`Internal Server Error: ${ex}`);
+  }
+});
+
+
+// delete comment
+router.delete('/:userId/Pictures',auth, async (req, res) => {
+  try {
+    const picture = await Picture.findByIdAndRemove(req.params.PictureId);
+    if (!picture)
+      return res.status(400).send(`The user with id "${req.params.PictureId}" does not exist.`);
+    return res.send(Picture);
+  } catch (ex) {
+    return res.status(500).send(`Internal Server Error: ${ex}`);
+  }
+});
 
 
 module.exports = router;
