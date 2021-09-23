@@ -6,6 +6,7 @@ const cors = require('cors');
 const users = require('./routes/user');
 const auth = require('./routes/auth');
 
+
 connectDB();
 
 app.use(cors());

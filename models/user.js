@@ -3,11 +3,30 @@ const Joi = require ('joi');
 const config = require('config');
 const jwt = require('jsonwebtoken');
 
+const friendSchema = new mongoose.Schema({
+    friendId: { type: String, required: true, minlength: 2, maxlength: 50 },
+    name:  { type: String, required: true, minlength: 2, maxlength: 50 }
+    
+});
+
+const Friend = mongoose.model('Friend', friendSchema);
+
+function validateFriend(friend) {
+    const schema = Joi.object({
+        friendId: Joi.string().min(2).max(50).required(),
+        name: Joi.string().min(2).max(50).required()
+    });
+    return schema.validate(friend);
+}
+
+
+
 const userSchema = new mongoose.Schema({
     name:  { type: String, required: true, minlength: 2, maxlength: 50 },
     email: { type: String, unique: true, required: true, minlength: 5, maxlength: 255 },
     password: { type: String, required: true, minlength: 5, maxlength: 1024 },
-    isAdmin:{type:Boolean, default:false}
+    isAdmin:{type:Boolean, default:false},
+    friends:{ type:[friendSchema], default:[]}
 });
 
 userSchema.methods.generateAuthToken = function () {
@@ -28,3 +47,6 @@ function validateUser(user) {
 exports.User = User
 exports.validateUser = validateUser
 exports.userSchema = userSchema
+exports.Friend = Friend
+exports.validateFriend = validateFriend
+exports.friendSchema = friendSchema

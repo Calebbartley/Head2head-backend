@@ -25,7 +25,7 @@ router.post('/', async (req, res) => {
     }
 });
 
-
+//login
 function  validateLogin(req)  {
     const  schema  =  Joi.object({
         email:  Joi.string().min(5).max(255).required().email(),
@@ -34,4 +34,9 @@ function  validateLogin(req)  {
     return  schema.validate(req);
 }
 
+// function logout(){
+//     localStorage.clear();
+//     window.location.href= '/'
+
+// }
 module.exports  =  router;

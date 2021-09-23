@@ -1,4 +1,4 @@
 {
     "mongoURI": "mongodb+srv://calebbartley:Eastonb18!@cluster0.lkihu.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
-    "jwtSecret":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTQ0ZDZkNTU2YTZmYTJhYjZmYzA4MGEiLCJuYW1lIjoiYXJpIiwiaXNBZG1pbiI6ZmFsc2UsImlhdCI6MTYzMTkwMTQ5MX0.XI_04DQ04rgxBpT_H12-moqHKMl4J-wdtYUJ0RQD_Gw"
+    "jwtSecret":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTQ0ZDZkNTU2YTZmYTJhYjZmYzA4MGEiLCJuYW1lIjoiYXJpIiwiaXNBZG1pbiI6ZmFsc2UsImlhdCI6MTYzMTkxMDEwNn0.Wix5qhhOT5eh_Mt4FCIWjcvHmAKLy0LrTrgSBF3lK5E"
 }
