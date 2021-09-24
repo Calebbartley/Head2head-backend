@@ -38,7 +38,7 @@ function validateComment(comment) {
 //picture
 const pictureSchema = new mongoose.Schema({
     userId: { type: String, required: true, minlength: 2, maxlength: 50 },
-    picture:  { data: Buffer, type: String ,required: true}
+    picture:  { type: File,required: true}
     
 });
 
@@ -47,7 +47,7 @@ const Picture= mongoose.model('Picture', pictureSchema);
 function validatePicture(picture) {
     const schema = Joi.object({
         userId: Joi.string().min(2).max(50).required(),
-        picture:  Joi.Picture().required()
+        picture:  Joi.file().required()
     });
     return schema.validate(picture);
 }
