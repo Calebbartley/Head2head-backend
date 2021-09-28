@@ -2,7 +2,10 @@ const connectDB = require('./startup/db');
 const express = require('express');
 const app = express();
 const cors = require('cors');
-const formidable = require('formidable')
+const multer = require('multer')
+const fs = require('fs')
+
+
 
 const users = require('./routes/user');
 const auth = require('./routes/auth');

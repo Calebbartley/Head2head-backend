@@ -38,7 +38,7 @@ function validateComment(comment) {
 //picture
 const pictureSchema = new mongoose.Schema({
     userId: { type: String, required: true, minlength: 2, maxlength: 50 },
-    picture:  { type: File,required: true}
+    picture:  { data: Buffer, contentType: String}
     
 });
 
