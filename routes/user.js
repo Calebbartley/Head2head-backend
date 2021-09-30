@@ -318,7 +318,7 @@ router.delete('/:userId/Pictures',auth, async (req, res) => {
 //get all Status
 router.get('/:userId/Status', async(req,res)=>{
   try{
-    const status = await Status.findAllPicture();
+    const status = await Status.findAllStatus();
 
     return res
     .send(status);
