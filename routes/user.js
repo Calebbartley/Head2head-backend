@@ -1,8 +1,8 @@
-const {User, validateUser, Status} = require('../models/user');
+const {User, validateUser} = require('../models/user');
 const {Friend, validateFriend} = require('../models/user')
 const {Comment, validateComment} = require('../models/user')
 const {Picture, validatePicture} = require('../models/user')
-
+const {Status, ValidateStatus}= require ('../models/user')
 const bcrypt = require('bcrypt');
 const auth = require('../middleware/auth');
 const admin = require('../middleware/admin');
@@ -318,10 +318,10 @@ router.delete('/:userId/Pictures',auth, async (req, res) => {
 //get all Status
 router.get('/:userId/Status', async(req,res)=>{
   try{
-    const status = await Status.findAllStatus();
+    const user = await User.findById(req.params.userId);
 
     return res
-    .send(status);
+    .send(user.status);
   } catch(ex){
     return res.status(500).send(`Internal Server Error:${ex}`);
   }
