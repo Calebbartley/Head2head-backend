@@ -250,7 +250,7 @@ router.delete('/:userId/Comments',auth, async (req, res) => {
 //get all Pictures
 router.get('/:userId/Pictures', async(req,res)=>{
   try{
-    const picture = await Picture.findAllPicture();
+    const picture = await Picture.findById(req.params.userId);
 
     return res
     .send(picture);

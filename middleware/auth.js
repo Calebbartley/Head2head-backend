@@ -31,8 +31,10 @@ function auth(req, res, next) {
     req.user = decoded;
     return next();
   } catch (ex) {
+
      return res.status(400).send("Invalid token.");
   }
+
 }
 
 
