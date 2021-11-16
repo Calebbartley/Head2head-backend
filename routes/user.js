@@ -8,6 +8,7 @@ const auth = require('../middleware/auth');
 const admin = require('../middleware/admin');
 const express = require('express');
 const router = express.Router();
+const ObjectId = require('mongodb').ObjectID;
 
 
 // get all users
@@ -331,6 +332,7 @@ router.get('/:userId/Status', async(req,res)=>{
 //get single status
 router.get('/:userId/Status/:StatusId', async(req,res)=>{
   try{
+ 
       const status = await Status.findById(req.params.StatusId);
       if (!status) return res.status(400).send(`The user with id "${req.params.statusId}" does not exist.`);
   
@@ -381,6 +383,32 @@ router.delete('/:userId/Status',auth, async (req, res) => {
     return res.status(500).send(`Internal Server Error: ${ex}`);
   }
 });
+
+
+router.patch('/:userId/status/like/:statusId',auth, async(req,res)=>{
+  try{
+    // let id = new ObjectId(req.params.StatusId);
+    const user = await User.findById(req.params.userId);
+    if (!user){
+      return res.status(400).send(`The Status with id "${req.params.statusId}" does not exist.`);
+    }
+    else{ 
+      console.log(user.status)
+      for(statusOfUser of user.status){
+        if(statusOfUser._id == req.params.statusId){
+          statusOfUser.likes = Number(statusOfUser.likes) + 1;
+          console.log(statusOfUser.likes);
+        }
+      }
+      
+      user.save();
+      return res.send(Status);
+    }
+    }catch (ex) {
+      console.log(ex.message)
+      return res.status(500).send(`Internal Server Error: ${ex}`);
+    }
+})
 
 
 

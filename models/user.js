@@ -55,7 +55,8 @@ function validatePicture(picture) {
 //status
 const statusSchema = new mongoose.Schema({
     userId: { type: String, required: true, minlength: 2, maxlength: 50 },
-    status:  { type: String, required: true}
+    status:  { type: String, required: true},
+    likes: {type: Number, default: 0},
     
 });
 
@@ -64,7 +65,8 @@ const Status = mongoose.model('Status', statusSchema);
 function validateStatus(status) {
     const schema = Joi.object({
         userId: Joi.string().min(2).max(50).required(),
-        status:  Joi.string().required()
+        status:  Joi.string().required(),
+        likes: Joi.number()
     });
     return schema.validate(status);
 }
